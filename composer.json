@@ -1,0 +1,7 @@
+{
+    "name": "coldtrick/mentions",
+    "type": "elgg-plugin",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}
