@@ -1,5 +1,9 @@
-Mentions plugin
-================
+# Mentions plugin
+
+![Elgg 3.0](https://img.shields.io/badge/Elgg-3.0-green.svg)
+[![Latest Stable Version](https://poser.pugx.org/Elgg/mentions/v/stable.svg)](https://packagist.org/packages/Elgg/mentions)
+[![License](https://poser.pugx.org/Elgg/mentions/license.svg)](https://packagist.org/packages/Elgg/mentions)
+
  * Replaces @username with links to the user's profile
  * Sends notifications to users mentioned in posts
 
