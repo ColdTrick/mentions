@@ -3,7 +3,7 @@
  * Finnish translations
  */
 
-$finnish = array(
+return [
 	'mentions:notification:subject' => '%s mainitsi sinut kohteessa %s!',
 	'mentions:notification:body' => '%s mainitsi sinut kohteessa %s.
 
@@ -22,6 +22,4 @@ Voit lukea viestin tästä linkistä:
 	'mentions:fancy_links' => 'Korvaa @tunnus-maininnat käyttäjän kuvalla ja nimellä',
 
 	'mentions:settings:failed' => 'Asetusten tallentaminen epäonnistui.'
-);
-
-add_translation("fi", $finnish);
+];
