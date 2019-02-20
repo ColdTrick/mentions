@@ -1,5 +1,3 @@
-//<script>
-
 /**
  * Autocomplete @mentions
  *

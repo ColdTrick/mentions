@@ -1,6 +1,3 @@
-/**
- * Mentions support for regular textarea fields
- */
 define(function(require) {
 	var mentions = require('mentions/autocomplete');
 	var $ = require('jquery');

@@ -4,28 +4,35 @@
  */
 
 $user = elgg_get_page_owner_entity();
-
-// if user has never set this, default it to on
-if (null === elgg_get_plugin_user_setting('notify', $user->getGUID(), 'mentions')) {
-	elgg_set_plugin_user_setting('notify', 1, $user->getGUID(), 'mentions');
+if (!$user instanceof ElggUser || !$user->canEdit()) {
+	return;
 }
 
-$notify_label = elgg_echo('mentions:settings:send_notification');
+$methods = elgg_get_notification_methods();
+if (empty($methods)) {
+	return;
+}
 
-$options = array(
+$value = [];
+$method_options = [];
+foreach ($methods as $method) {
+	$label = elgg_echo("notification:method:$method");
+	$method_options[$label] = $method;
+	
+	if (elgg_get_plugin_user_setting("notify_{$method}", $user->guid, 'mentions', 1)) {
+		$value[] = $method;
+	}
+}
+
+$content = elgg_format_element('div', ['class' => ['elgg-subscription-description']], elgg_echo('mentions:settings:send_notification'));
+$content .= elgg_view_field([
+	'#type' => 'checkboxes',
+	'#class' => 'elgg-subscription-methods',
 	'name' => 'mentions_notify',
-	'value' => 1
-);
+	'options' => $method_options,
+	'default' => false,
+	'value' => $value,
+	'align' => 'horizontal',
+]);
 
-if (elgg_get_plugin_user_setting('notify', $user->getGUID(), 'mentions')) {
-	$options['checked'] = 'checked';
-}
-
-$notify_field = elgg_view('input/checkbox', $options);
-
-echo <<<___END
-<p>
-	<label>$notify_field $notify_label</label>
-</p>
-___END;
-?>
+echo elgg_format_element('div', ['class' => ['elgg-subscription-record']], $content);

@@ -1,6 +1,3 @@
-/**
- * Mentions support for the TinyMCE editor
- */
 define(function(require) {
 	var mentions = require('mentions/autocomplete');
 

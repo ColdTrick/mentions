@@ -1,8 +1,5 @@
-/**
- * CKEditor support for the mentions plugins
- */
 define(function (require) {
-
+	
 	var elgg = require('elgg');
 	elgg.register_hook_handler('prepare', 'ckeditor', function (hook, type, params, CKEDITOR) {
 		var mentions = require('mentions/autocomplete');

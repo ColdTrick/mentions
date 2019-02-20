@@ -27,4 +27,77 @@ class Regex {
 		return "/{$match_anchor}|{$match_attr}|{$match_preceding_char}{$match_username}/i";
 	}
 
+	/**
+	 * Replace @mention in text
+	 *
+	 * @param string $text text to search/replace in
+	 *
+	 * @return string
+	 */
+	public static function replaceMentions(string $text) {
+		return preg_replace_callback(self::getRegex(), self::class . '::callback', $text);
+	}
+	
+	/**
+	 * Used as a callback for the preg_replace
+	 *
+	 * @param array $matches preg_match result
+	 *
+	 * @return string
+	 */
+	public static function callback(array $matches) {
+		$source = elgg_extract(0, $matches);
+		$preceding_char = elgg_extract(1, $matches);
+		$mention = elgg_extract(2, $matches);
+		$username = elgg_extract(3, $matches);
+		
+		$plugin = elgg_get_plugin_from_id('mentions');
+		
+		if (empty($username)) {
+			return $source;
+		}
+		
+		$user = get_user_by_username($username);
+		
+		// Catch the trailing period when used as punctuation and not a username.
+		$period = '';
+		if (!$user && substr($username, -1) == '.') {
+			$user = get_user_by_username(rtrim($username, '.'));
+			$period = '.';
+		}
+		
+		if (!$user) {
+			return $source;
+		}
+		
+		$label = $mention;
+		if ($plugin->getSetting('named_links')) {
+			$label = $user->getDisplayName();
+		}
+		
+		$link_class = [];
+		$icon = '';
+		if ($plugin->getSetting('fancy_links')) {
+			$link_class[] = 'mentions-user-link';
+			
+			$icon = elgg_view('output/img', [
+				'src' => $user->getIconURL('topbar'),
+				'alt' => $user->getDisplayName(),
+				'title' => $user->getDisplayName(),
+				'class' => [
+					'elgg-anchor-icon',
+					'mentions-user-icon',
+				],
+			]);
+		}
+		
+		$replacement = elgg_view('output/url', [
+			'icon' => $icon,
+			'text' => $label,
+			'href' => $user->getURL(),
+			'class' => $link_class,
+		]);
+	
+		return $preceding_char . $replacement . $period;
+	}
 }
