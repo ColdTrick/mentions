@@ -3,6 +3,10 @@
  * Extension on input/longtext to support mentions in different WYSIWYG editors
  */
 
+if (!elgg_extract('allow_mentions', $vars, true)) {
+	return;
+}
+
 $plugins = [
 	'ckeditor',
 	'tinymce',
