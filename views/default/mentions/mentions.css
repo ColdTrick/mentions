@@ -24,8 +24,9 @@
 	.elgg-autocomplete-item {
 		padding: 6px;
 		
-		> li:hover {
+		&:hover {
 			background-color: $(background-color-soft);
+			cursor: pointer;
 		}
 	}
 	
