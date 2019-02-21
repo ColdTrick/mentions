@@ -11,11 +11,10 @@
 
 ### Supported content types
 
-To add support for custom object or annotation types in outgoing notifications,
+To add support for custom object types in outgoing notifications,
 add a corresponding language key pair to your language file:
 
-``mentions:notification_types:object:<object_type>``
-``mentions:notification_types:annotation:<annotation_name>``
+``mentions:notification_types:object:<object_subtype>``
 
 ### Object fields scanned for mentions
 
