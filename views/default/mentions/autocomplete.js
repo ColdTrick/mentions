@@ -66,14 +66,15 @@ define(function(require) {
 			}
 		}
 
-		if (current.match(/@/) && current.length > 1) {
+		if (current.match(/@/) && current.length > 2) {
 			current = current.replace('@', '');
 			$('#mentions-popup').removeClass('hidden');
 
 			var target_guid = elgg.get_page_owner_guid();
-			ajax.path('mentions/search/' + target_guid, {
+			ajax.path('livesearch/mentions', {
 				data: {
-					q: current,
+					term: current,
+					target_guid: target_guid,
 					view: 'json'
 				},
 			}).done(handleResponse);

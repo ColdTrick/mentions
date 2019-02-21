@@ -30,11 +30,15 @@ class Bootstrap extends DefaultPluginBootstrap {
 	 */
 	protected function extendViews() {
 		elgg_extend_view('elgg.css', 'mentions/mentions.css');
-		elgg_extend_view('input/longtext', 'mentions/popup');
-		elgg_extend_view('input/longtext', 'mentions/input/longtext');
-		elgg_extend_view('input/plaintext', 'mentions/popup');
-		elgg_extend_view('input/plaintext', 'mentions/input/plaintext');
 		elgg_extend_view('notifications/settings/other', 'mentions/notification_settings');
+		
+		if (elgg_is_logged_in()) {
+			// mentions only supported for logged in users
+			elgg_extend_view('input/longtext', 'mentions/popup');
+			elgg_extend_view('input/longtext', 'mentions/input/longtext');
+			elgg_extend_view('input/plaintext', 'mentions/popup');
+			elgg_extend_view('input/plaintext', 'mentions/input/plaintext');
+		}
 	}
 	
 	/**
