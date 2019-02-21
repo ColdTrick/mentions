@@ -12,6 +12,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 	 */
 	public function init() {
 		$this->extendViews();
+		$this->registerEvents();
 		$this->registerHooks();
 	}
 	
@@ -39,6 +40,18 @@ class Bootstrap extends DefaultPluginBootstrap {
 			elgg_extend_view('input/plaintext', 'mentions/popup');
 			elgg_extend_view('input/plaintext', 'mentions/input/plaintext');
 		}
+	}
+	
+	/**
+	 * Register event listeners
+	 *
+	 * @return void
+	 */
+	protected function registerEvents() {
+		$events = $this->elgg()->events;
+		
+		$events->registerHandler('create', 'object', __NAMESPACE__ . '\Notifications::sendNotifications');
+		$events->registerHandler('publish', 'object', __NAMESPACE__ . '\Notifications::sendNotifications');
 	}
 	
 	/**

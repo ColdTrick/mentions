@@ -100,4 +100,22 @@ class Regex {
 	
 		return $preceding_char . $replacement . $period;
 	}
+	
+	/**
+	 * Find usernames in text
+	 *
+	 * @param string $text the text to search
+	 *
+	 * @return string[]
+	 */
+	public static function findUsernames(string $text) {
+		$matches = [];
+		
+		if (!preg_match_all(self::getRegex(), $text, $matches)) {
+			return [];
+		}
+		
+		$usernames = elgg_extract(3, $matches, []);
+		return array_filter($usernames);
+	}
 }

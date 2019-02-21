@@ -1,6 +1,7 @@
 <?php
 
 use Elgg\Mentions\Bootstrap;
+use Elgg\Mentions\Upgrades\MigrateNotificationSettings;
 
 return [
 	'bootstrap' => Bootstrap::class,
@@ -15,5 +16,8 @@ return [
 	],
 	'settings' => [
 		'named_links' => 1,
+	],
+	'upgrades' => [
+		MigrateNotificationSettings::class,
 	],
 ];
