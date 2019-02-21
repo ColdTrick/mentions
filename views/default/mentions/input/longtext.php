@@ -9,20 +9,19 @@ if (!elgg_extract('allow_mentions', $vars, true)) {
 
 $editor = 'plaintext';
 if (elgg_extract('editor', $vars, true)) {
+	// in the format:
+	// plugin_id => editor_file to require
 	$plugins = [
-		'ckeditor',
-		'tinymce',
-		'extended_tinymce',
+		'ckeditor' => 'mckeditor',
+		'tinymce' => 'timymce',
+		'extended_tinymce' => 'tinymce',
 	];
 	
-	foreach ($plugins as $plugin) {
-		if (elgg_is_active_plugin($plugin)) {
-			$editor = $plugin;
+	foreach ($plugins as $plugin_id => $editor_file) {
+		if (elgg_is_active_plugin($plugin_id)) {
+			$editor = $editor_file;
+			break;
 		}
-	}
-	
-	if ($editor == 'extended_tinymce') {
-		$editor = 'tinymce';
 	}
 }
 

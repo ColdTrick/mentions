@@ -14,6 +14,10 @@ class Bootstrap extends DefaultPluginBootstrap {
 		$this->extendViews();
 		$this->registerEvents();
 		$this->registerHooks();
+		
+		elgg_define_js('mentions/editors/ckeditor2', [
+			'src' => elgg_get_simplecache_url('mentions/editors/ckeditor'),
+		]);
 	}
 	
 	/**
