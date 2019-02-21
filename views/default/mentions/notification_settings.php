@@ -3,7 +3,7 @@
  * User setting for mentions
  */
 
-$user = elgg_get_page_owner_entity();
+$user = elgg_extract('user', $vars);
 if (!$user instanceof ElggUser || !$user->canEdit()) {
 	return;
 }
