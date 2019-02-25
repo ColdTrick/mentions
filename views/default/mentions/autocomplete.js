@@ -12,6 +12,24 @@ define(function(require) {
 	var callback;
 
 	/**
+	 * Delayed function call, prevent overloading browser with requests
+	 */
+	var debounceTimeout;
+	var debounce = function (func, wait, immediate) {
+		return function() {
+			var context = this, args = arguments;
+			var later = function() {
+				debounceTimeout = null;
+				if (!immediate) func.apply(context, args);
+			};
+			var callNow = immediate && !timeout;
+			clearTimeout(debounceTimeout);
+			debounceTimeout = setTimeout(later, wait);
+			if (callNow) func.apply(context, args);
+		};
+	};
+	
+	/**
 	 * Display AJAX response and provide new content for the editor
 	 */
 	var handleResponse = function (json) {
@@ -68,17 +86,22 @@ define(function(require) {
 
 		if (current.match(/@/) && current.length > 2) {
 			current = current.replace('@', '');
-			$('#mentions-popup').removeClass('hidden');
-
-			var target_guid = elgg.get_page_owner_guid();
-			ajax.path('livesearch/mentions', {
-				data: {
-					term: current,
-					target_guid: target_guid,
-					view: 'json'
-				},
-			}).done(handleResponse);
+			
+			debounce(getAutocompleteData, 500)(current);
 		}
+	};
+	
+	var getAutocompleteData = function (term) {
+		$('#mentions-popup').removeClass('hidden');
+
+		var target_guid = elgg.get_page_owner_guid();
+		ajax.path('livesearch/mentions', {
+			data: {
+				term: term,
+				target_guid: target_guid,
+				view: 'json'
+			},
+		}).done(handleResponse);
 	};
 
 	/**
