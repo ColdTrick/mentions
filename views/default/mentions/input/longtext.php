@@ -27,4 +27,4 @@ if (elgg_extract('editor', $vars, true)) {
 
 elgg_require_js("mentions/editors/$editor");
 
-echo elgg_view('mentions/popup');
+echo elgg_view('mentions/popup', $vars);

@@ -8,133 +8,158 @@ define(function(require) {
 	var $ = require('jquery');
 	var elgg = require('elgg');
 	var Ajax = require('elgg/Ajax');
-	var ajax = new Ajax(false);
-	var callback;
-
-	/**
-	 * Delayed function call, prevent overloading browser with requests
-	 */
-	var debounceTimeout;
-	var debounce = function (func, wait, immediate) {
-		return function() {
-			var context = this, args = arguments;
-			var later = function() {
-				debounceTimeout = null;
-				if (!immediate) func.apply(context, args);
-			};
-			var callNow = immediate && !timeout;
-			clearTimeout(debounceTimeout);
-			debounceTimeout = setTimeout(later, wait);
-			if (callNow) func.apply(context, args);
-		};
+	
+	function MentionsAutocomplete(popup_selector) {
+		this.$popup = $(popup_selector);
+		
+		this.callback;
+		this.beforeMention;
+		this.afterMention;
+		this.position;
+		this.current;
+		this.debounceTimeout;
 	};
 	
-	/**
-	 * Display AJAX response and provide new content for the editor
-	 */
-	var handleResponse = function (json) {
-		var userOptions = '';
-		$(json).each(function(key, user) {
-			userOptions += '<li data-username="' + user.value + '">' + user.label + "</li>";
-		});
-
-		if (!userOptions) {
-			hide();
-			return;
-		}
-
-		$('#mentions-popup > .elgg-body').html('<ul class="mentions-autocomplete">' + userOptions + "</ul>");
-		$('#mentions-popup').removeClass('hidden');
-
-		$('.mentions-autocomplete > li').bind('click', function(e) {
-			e.preventDefault();
-
-			var username = $(this).data('username');
-
-			// Remove the partial @username string from the first part
-			newBeforeMention = beforeMention.substring(0, position - current.length);
-
-			// Add the complete @username string and the rest of the original
-			// content after the first part
-			newContent = newBeforeMention + username + afterMention;
-
-			callback(newContent);
-
-			// Hide the autocomplete popup
-			hide();
-		});
-	};
-
-	var autocomplete = function (content, position, editorCallback) {
-		callback = editorCallback;
-
-		beforeMention = content.substring(0, position);
-		afterMention = content.substring(position);
-		parts = beforeMention.split(' ');
-		current = parts[parts.length - 1];
-
-		precurrent = false;
-		if (parts.length > 1) {
-			precurrent = parts[parts.length - 1];
-
-			if (!current.match(/@/)) {
-				if (precurrent.match(/@/)) {
-					current = precurrent + ' ' + current;
+	MentionsAutocomplete.prototype = {
+		/**
+		 * Display AJAX response and provide new content for the editor
+		 */
+		handleResponse : function (json) {
+			var userOptions = '';
+			$(json).each(function(key, user) {
+				userOptions += '<li data-username="' + user.value + '">' + user.label + "</li>";
+			});
+			
+			if (!userOptions) {
+				this.hide();
+				return;
+			}
+			
+			var instance = this;
+			
+			this.$popup.find('> .elgg-body').html('<ul class="mentions-autocomplete">' + userOptions + "</ul>");
+			this.$popup.removeClass('hidden');
+	
+			this.$popup.find('.mentions-autocomplete > li').bind('click', function(e) {
+				e.preventDefault();
+	
+				var username = $(this).data('username');
+	
+				// Remove the partial @username string from the first part
+				var newBeforeMention = instance.beforeMention.substring(0, instance.position - instance.current.length);
+	
+				// Add the complete @username string and the rest of the original
+				// content after the first part
+				var newContent = newBeforeMention + username + instance.afterMention;
+	
+				instance.callback(newContent);
+	
+				// Hide the autocomplete popup
+				instance.hide();
+			});
+		},
+		
+		autocomplete : function (content, position, editorCallback) {
+			this.callback = editorCallback;
+	
+			this.position = position;
+			this.beforeMention = content.substring(0, position);
+			this.afterMention = content.substring(position);
+			
+			var parts = this.beforeMention.split(' ');
+			this.current = parts[parts.length - 1];
+			
+			var precurrent = false;
+			if (parts.length > 1) {
+				precurrent = parts[parts.length - 1];
+	
+				if (!this.current.match(/@/)) {
+					if (precurrent.match(/@/)) {
+						this.current = precurrent + ' ' + this.current;
+					}
 				}
 			}
-		}
-
-		if (current.match(/@/) && current.length > 2) {
-			current = current.replace('@', '');
 			
-			debounce(getAutocompleteData, 500)(current);
-		}
-	};
+			if (this.current.match(/@/) && this.current.length > 2) {
+				this.current = this.current.replace('@', '');
+				
+				this.debounce(this.getAutocompleteData, 200)(this.current);
+			}
+		},
+		
+		getAutocompleteData : function (term) {
+			this.show();
+			
+			var instance = this;
+			var target_guid = elgg.get_page_owner_guid();
+			var ajax = new Ajax(false);
+			ajax.path('livesearch/mentions', {
+				data: {
+					term: term,
+					target_guid: target_guid,
+					view: 'json'
+				},
+				success: function(data) {
+					instance.handleResponse(data);
+				},
+				error: function () {
+					instance.hide();
+				}
+			});
+		},
 	
-	var getAutocompleteData = function (term) {
-		$('#mentions-popup').removeClass('hidden');
-
-		var target_guid = elgg.get_page_owner_guid();
-		ajax.path('livesearch/mentions', {
-			data: {
-				term: term,
-				target_guid: target_guid,
-				view: 'json'
-			},
-		}).done(handleResponse);
-	};
-
-	/**
-	 * Check if entered key represents a valid character for a username
-	 *
-	 * 8  = backspace
-	 * 13 = enter
-	 * 32 = space
-	 *
-	 * @param {String} keyCode
-	 * @return {Boolean}
-	 */
-	var isValidKey = function(keyCode) {
-		var keyCodes = [8, 13, 32];
-
-		if (keyCodes.indexOf(keyCode) == -1) {
-			return true;
-		} else {
-			hide();
-			return;
+		/**
+		 * Check if entered key represents a valid character for a username
+		 *
+		 * 8  = backspace
+		 * 13 = enter
+		 * 32 = space
+		 *
+		 * @param {String} keyCode
+		 * @return {Boolean}
+		 */
+		isValidKey : function(keyCode) {
+			var keyCodes = [8, 13, 32];
+	
+			if (keyCodes.indexOf(keyCode) == -1) {
+				return true;
+			} else {
+				this.hide();
+				return;
+			}
+		},
+	
+		/**
+		 * Hide the autocomplete results
+		 */
+		hide : function() {
+			this.$popup.find('> .elgg-body').html('<div class="elgg-ajax-loader"></div>');
+			this.$popup.addClass('hidden');
+		},
+		
+		show : function() {
+			this.$popup.removeClass('hidden');
+		},
+		
+		/**
+		 * Delayed function call, prevent overloading browser with requests
+		 */
+		debounce : function (func, wait, immediate) {
+			var instance = this;
+			
+			return function() {
+				var context = instance, args = arguments;
+				var later = function() {
+					instance.debounceTimeout = null;
+					if (!immediate) func.apply(context, args);
+				};
+				var callNow = immediate && !timeout;
+				clearTimeout(instance.debounceTimeout);
+				instance.debounceTimeout = setTimeout(later, wait);
+				if (callNow) func.apply(context, args);
+			};
 		}
 	};
 
-	/**
-	 * Hide the autocomplete results
-	 */
-	var hide = function() {
-		$('#mentions-popup > .elgg-body').html('<div class="elgg-ajax-loader"></div>');
-		$('#mentions-popup').addClass('hidden');
-	};
-
-	return {
-		autocomplete: autocomplete,
-		isValidKey: isValidKey
-	};
+	return MentionsAutocomplete;
 });

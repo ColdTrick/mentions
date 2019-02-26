@@ -2,10 +2,19 @@ define(function (require) {
 	
 	var elgg = require('elgg');
 	elgg.register_hook_handler('prepare', 'ckeditor', function (hook, type, params, CKEDITOR) {
-		var mentions = require('mentions/autocomplete');
-		require('mentions/editors/plaintext');
+		var MentionsAutocomplete = require('mentions/autocomplete');
 		
 		CKEDITOR.on('instanceCreated', function (e) {
+			var $elem = $(e.editor.element.$);
+			var selector;
+			if ($elem.attr('id').length) {
+				selector = '#mentions-popup-' + $elem.attr('id'); 
+			} else {
+				selector = $elem.siblings('.mentions-popup').eq(0);
+			}
+			
+			var mentions = new MentionsAutocomplete(selector);
+			
 			e.editor.on('contentDom', function (ev) {
 				var editable = ev.editor.editable();
 

@@ -9,4 +9,4 @@ if (!elgg_extract('allow_mentions', $vars, true)) {
 
 elgg_require_js('mentions/editors/plaintext');
 
-echo elgg_view('mentions/popup');
+echo elgg_view('mentions/popup', $vars);

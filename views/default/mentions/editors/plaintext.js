@@ -1,5 +1,5 @@
 define(function(require) {
-	var mentions = require('mentions/autocomplete');
+	var MentionsAutocomplete = require('mentions/autocomplete');
 	var $ = require('jquery');
 
 	var getCursorPosition = function(el) {
@@ -18,18 +18,30 @@ define(function(require) {
 		return pos;
 	};
 
-	$('textarea').bind('keyup', function(e) {
-		// Skip keycodes that cannot be used for entering a username
-	 	if (!mentions.isValidKey(e.which)) {
-	 		return;
-	 	}
+	$('textarea').each(function(index, elem) {
+		var $elem = $(elem);
+		var selector;
+		if ($elem.attr('id').length) {
+			selector = '#mentions-popup-' + $elem.attr('id'); 
+		} else {
+			selector = $elem.siblings('.mentions-popup').eq(0);
+		}
+		
+		var mentions = new MentionsAutocomplete(selector);
+		
+		$elem.on('keyup', function(e) {
+			// Skip keycodes that cannot be used for entering a username
+		 	if (!mentions.isValidKey(e.which)) {
+		 		return;
+		 	}
 
-		textarea = $(this);
-		content = $(this).val();
-		position = getCursorPosition(this);
+			textarea = $(this);
+			content = $(this).val();
+			position = getCursorPosition(this);
 
-		mentions.autocomplete(content, position, function(content) {
-			textarea.val(content);
+			mentions.autocomplete(content, position, function(content) {
+				textarea.val(content);
+			});
 		});
 	});
 });
