@@ -86,7 +86,10 @@ class Notifications {
 		}
 		
 		$usernames = array_unique($usernames);
-		$notified_users = [];
+		$notified_users = [
+			$owner->guid, // don't notify owner of created content, probably current user
+			elgg_get_logged_in_user_guid(), // don't notify logged in user
+		];
 		
 		foreach ($usernames as $username) {
 			$user = get_user_by_username($username);
@@ -116,7 +119,7 @@ class Notifications {
 				// user doesn't wish notifications
 				continue;
 			}
-			
+			system_message('mentions: ' . $user->getDisplayName());
 			$language = $user->getLanguage();
 			
 			$localized_type_str = elgg_echo($type_key, [], $language);
