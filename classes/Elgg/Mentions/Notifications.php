@@ -119,7 +119,7 @@ class Notifications {
 				// user doesn't wish notifications
 				continue;
 			}
-			system_message('mentions: ' . $user->getDisplayName());
+			
 			$language = $user->getLanguage();
 			
 			$localized_type_str = elgg_echo($type_key, [], $language);
