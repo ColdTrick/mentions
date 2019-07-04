@@ -9,7 +9,8 @@
 		"issues": "https://github.com/Elgg/mentions/issues"
 	},
 	"require": {
-		"composer/installers": "^1.0.8"
+		"composer/installers": "^1.0.8",
+		"ckeditor/ckeditor": "~4.11.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^4.7"
