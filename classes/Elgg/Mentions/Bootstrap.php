@@ -57,6 +57,8 @@ class Bootstrap extends DefaultPluginBootstrap {
 		
 		$hooks->registerHandler('action:validate', 'notifications/settings', __NAMESPACE__ . '\Notifications::saveNotificationSettings');
 		$hooks->registerHandler('to:object', 'entity', __NAMESPACE__ . '\Views::addMentionDataToLivesearch');
+		$hooks->registerHandler('format', 'notification:email', __NAMESPACE__ . '\Notifications::replaceNotificationBodyMentions');
+		$hooks->registerHandler('format', 'notification:site', __NAMESPACE__ . '\Notifications::replaceNotificationBodyMentions');
 	}
 	
 	/**

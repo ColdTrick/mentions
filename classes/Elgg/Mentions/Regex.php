@@ -75,27 +75,9 @@ class Regex {
 			$label = $user->getDisplayName();
 		}
 		
-		$link_class = [];
-		$icon = '';
-		if ($plugin->getSetting('fancy_links')) {
-			$link_class[] = 'mentions-user-link';
-			
-			$icon = elgg_view('output/img', [
-				'src' => $user->getIconURL('topbar'),
-				'alt' => $user->getDisplayName(),
-				'title' => $user->getDisplayName(),
-				'class' => [
-					'elgg-anchor-icon',
-					'mentions-user-icon',
-				],
-			]);
-		}
-		
 		$replacement = elgg_view('output/url', [
-			'icon' => $icon,
 			'text' => $label,
 			'href' => $user->getURL(),
-			'class' => $link_class,
 		]);
 	
 		return $preceding_char . $replacement . $period;

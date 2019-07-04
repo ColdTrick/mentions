@@ -29,7 +29,6 @@ To see the full post, click on the link below:
 
 	// plugin settings
 	'mentions:named_links' => 'Replace @username with a user\'s display name',
-	'mentions:fancy_links' => 'Add a small picture of the user to next to user\'s name',
 	'mentions:restrict_group_search' => 'In group context, restrict autocomplete suggestions to group members only',
 	'mentions:friends_only_search' => 'Restrict autocomplete suggestions to friends only',
 ];

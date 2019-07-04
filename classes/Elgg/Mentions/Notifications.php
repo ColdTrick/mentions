@@ -2,6 +2,8 @@
 
 namespace Elgg\Mentions;
 
+use Elgg\Notifications\Notification;
+
 class Notifications {
 	
 	/**
@@ -164,5 +166,24 @@ class Notifications {
 		}
 		
 		return $result;
+	}
+	
+	/**
+	 * Replace @mentions with the configured replacement in notification bodies
+	 *
+	 * @param \Elgg\Hook $hook 'format', 'notification:<method>'
+	 *
+	 * @return void|Notification
+	 */
+	public static function replaceNotificationBodyMentions(\Elgg\Hook $hook) {
+		
+		$notifcation = $hook->getValue();
+		if (!$notifcation instanceof Notification) {
+			return;
+		}
+		
+		$notifcation->body = Regex::replaceMentions($notifcation->body);
+		
+		return $notifcation;
 	}
 }

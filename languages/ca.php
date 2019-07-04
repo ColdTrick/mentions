@@ -21,7 +21,6 @@ Per veure la publicació complerta, fes clic a l\'enllaç següent:
 
 	// admin
 	'mentions:named_links' => 'Canviar @usuari pel nom d\'usuari',
-	'mentions:fancy_links' => 'Afegir imatge juntament amb el nom d\'usuari',
 	'mentions:restrict_group_search' => 'Dins un grup, suggerir només els membres del grup',
 	'mentions:friends_only_search' => 'Suggerir només els amics de l\'usuari',
 

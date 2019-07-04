@@ -19,8 +19,6 @@ Pour voir la publication complète, cliquez sur le lien suivant :
 	'mentions:settings:send_notification' => "Envoyer une notification quand quelqu'un vous @mentionne dans une publication ?",
 
 	// admin
-	'mentions:fancy_links' => "Remplacer les @mentions par une vignette de l'utilisateur en plus de son nom",
-
 	'mentions:settings:failed' => "Impossible d'enregigtrer les paramètres des mentions.",
 );
 
