@@ -38,4 +38,30 @@ class Views {
 		
 		return $vars;
 	}
+	
+	/**
+	 * Adds id to objects export in livesearch
+	 *
+	 * @param \Elgg\Hook $hook 'to:object', 'entity'
+	 *
+	 * @return void|array
+	 */
+	public static function addMentionDataToLivesearch(\Elgg\Hook $hook) {
+		
+		$object = $hook->getValue();
+		
+		$entity = $hook->getEntityParam();
+		if (!$entity) {
+			return;
+		}
+		
+		if (!elgg_in_context('livesearch')) {
+			return;
+		}
+		
+		$object->id = $entity->guid;
+		$object->mentions_icon_url = $entity->getIconURL('tiny');
+		
+		return $object;
+	}
 }

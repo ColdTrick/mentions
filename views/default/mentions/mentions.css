@@ -1,0 +1,8 @@
+.mentions-autocomplete-item {
+	> .elgg-image {
+		margin-right: .5rem;
+	}
+	> .elgg-body {
+		line-height: 1.5rem;
+	}
+}

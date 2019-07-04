@@ -31,6 +31,8 @@ class Bootstrap extends DefaultPluginBootstrap {
 	 */
 	protected function extendViews() {
 		elgg_extend_view('notifications/settings/other', 'mentions/notification_settings');
+		elgg_extend_view('elgg-ckeditor.js', 'mentions/ckeditor.js');
+		elgg_extend_view('elgg.css', 'mentions/mentions.css');
 	}
 	
 	/**
@@ -54,6 +56,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 		$hooks = $this->elgg()->hooks;
 		
 		$hooks->registerHandler('action:validate', 'notifications/settings', __NAMESPACE__ . '\Notifications::saveNotificationSettings');
+		$hooks->registerHandler('to:object', 'entity', __NAMESPACE__ . '\Views::addMentionDataToLivesearch');
 	}
 	
 	/**
