@@ -17,15 +17,6 @@ echo elgg_view_field([
 
 echo elgg_view_field([
 	'#type' => 'checkbox',
-	'#label' => elgg_echo('mentions:fancy_links'),
-	'name' => 'params[fancy_links]',
-	'value' => 1,
-	'checked' => (bool) $entity->fancy_links,
-	'switch' => true,
-]);
-
-echo elgg_view_field([
-	'#type' => 'checkbox',
 	'#label' => elgg_echo('mentions:restrict_group_search'),
 	'name' => 'params[restrict_group_search]',
 	'value' => 1,

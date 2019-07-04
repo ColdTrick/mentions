@@ -19,7 +19,5 @@ Voit lukea viestin tästä linkistä:
 	'mentions:settings:send_notification' => 'Ilmoita, kun joku mainitsee sinut nimeltä (@tunnus)?',
 
 	// admin
-	'mentions:fancy_links' => 'Korvaa @tunnus-maininnat käyttäjän kuvalla ja nimellä',
-
 	'mentions:settings:failed' => 'Asetusten tallentaminen epäonnistui.'
 ];

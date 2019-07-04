@@ -20,7 +20,6 @@ Para ver la publicación completa, haz clic en el enlace siguiente:
 
 	// admin
 	'mentions:named_links' => 'Reemplazar @usuario por el nombre del usuario',
-	'mentions:fancy_links' => 'Añadir imagen junto al nombre del usuario',
 	'mentions:restrict_group_search' => 'Dentro de un grupo, sugerir solo los miembros del grupo',
 	'mentions:friends_only_search' => 'Sugerir solo los amigos del usuario',
 

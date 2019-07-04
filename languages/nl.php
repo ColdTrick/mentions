@@ -6,7 +6,7 @@
 
 return array (
   'mentions:upgrade:2019022100:title' => 'Migreer de mentions notificatie instellingen',
-  'mentions:upgrade:2019022100:description' => 'De notificatie instellingen worden nu opgeslagen per notificatiemethode, 
+  'mentions:upgrade:2019022100:description' => 'De notificatie instellingen worden nu opgeslagen per notificatiemethode,
 migreer de oude instellingen naar de nieuwe.',
   'mentions:notification_types:object:discussion' => 'een discussie',
   'mentions:notification_types:object:comment' => 'een reactie',
@@ -22,5 +22,4 @@ Om het volledige bericht te zien, klik op onderstaande link:
   'mentions:notification_types:object:bookmarks' => 'een favoriet',
   'mentions:notification_types:object:thewire' => 'een wire bericht',
   'mentions:settings:send_notification' => 'Verstuur een notificatie als iemand je @vermeld in een bericht?',
-  'mentions:fancy_links' => 'Vervang @vermeldingen met een kleine afbeelding van de gebruiker bovenop de gebruiker z\'n naam',
 );
