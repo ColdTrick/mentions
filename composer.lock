@@ -4,49 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b608325010c2ef5ed074d4a363704b3b",
+    "content-hash": "ffddea0a05b23e635a430d920442b43b",
     "packages": [
-        {
-            "name": "ckeditor/ckeditor",
-            "version": "4.11.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ckeditor/ckeditor-releases.git",
-                "reference": "b42e90185ed50054d3f4bd1b60446f21256ef1b1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/b42e90185ed50054d3f4bd1b60446f21256ef1b1",
-                "reference": "b42e90185ed50054d3f4bd1b60446f21256ef1b1",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+",
-                "LGPL-2.1+",
-                "MPL-1.1+"
-            ],
-            "authors": [
-                {
-                    "name": "CKSource",
-                    "homepage": "http://cksource.com"
-                }
-            ],
-            "description": "JavaScript WYSIWYG web text editor.",
-            "homepage": "http://ckeditor.com",
-            "keywords": [
-                "CKEditor",
-                "editor",
-                "fckeditor",
-                "html",
-                "javascript",
-                "richtext",
-                "text",
-                "wysiwyg"
-            ],
-            "time": "2019-04-09T14:01:57+00:00"
-        },
         {
             "name": "composer/installers",
             "version": "v1.6.0",
