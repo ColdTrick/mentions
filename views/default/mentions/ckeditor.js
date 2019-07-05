@@ -7,7 +7,7 @@ require(['jquery', 'elgg'], function($, elgg) {
 			{
 				minChars: 1,
 				feed: elgg.normalize_url('livesearch/mentions?q={encodedQuery}'),
-
+				
 				itemTemplate: '<li data-id="{id}">' +
 					'<div class="elgg-image-block mentions-autocomplete-item">' +
 						'<div class="elgg-image">' +

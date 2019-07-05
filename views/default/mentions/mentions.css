@@ -6,3 +6,15 @@
 		line-height: 1.5rem;
 	}
 }
+
+.elgg-form-thewire-add {
+	.cke_inner {
+		.cke_top {
+			display: none;
+		}
+	}
+	
+	.elgg-menu-longtext-container {
+		display: none;
+	}
+}
